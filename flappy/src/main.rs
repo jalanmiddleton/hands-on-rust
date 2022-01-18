@@ -184,6 +184,7 @@ impl GameState for State {
 
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
+        .with_fancy_console(80, 50, "terminal8x8.png")
         .with_title("Flappy Dragon")
         .build()?;
     main_loop(context, State::new())

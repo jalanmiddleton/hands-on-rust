@@ -1,6 +1,8 @@
 #![warn(clippy::all, clippy::pedantic)]
 use bracket_lib::prelude::*;
 
+// DEBT: Uncomfortable number of "as i32" casts.
+
 enum GameMode {
     Menu,
     Playing,
@@ -12,13 +14,13 @@ const SCREEN_HEIGHT: i32 = 50;
 const FRAME_DURATION: f32 = 75.0;
 
 struct Player {
-    x: i32,
-    y: i32,
+    x: f32,
+    y: f32,
     velocity: f32,
 }
 
 impl Player {
-    fn new(x: i32, y: i32) -> Self {
+    fn new(x: f32, y: f32) -> Self {
         Player {
             x,
             y,
@@ -26,8 +28,21 @@ impl Player {
         }
     }
 
+    // Fancy consoles need separate active consoles?
+    // According to a working solution here: https://github.com/Joshua-Robison/FlappyDragon/commit/4b3abc6884f8fbc98b79118133c3e9813676124a
     fn render(&mut self, ctx: &mut BTerm) {
-        ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'))
+        ctx.set_active_console(1);
+        ctx.cls();
+        ctx.set_fancy(
+            PointF { x: 0.0, y: self.y },
+            0,                         // z-order
+            Radians::new(0.0),         // spin
+            PointF { x: 1.0, y: 1.0 }, // scale
+            YELLOW,
+            BLACK,
+            to_cp437('@'),
+        );
+        ctx.set_active_console(0);
     }
 
     fn gravity_and_move(&mut self) {
@@ -35,10 +50,10 @@ impl Player {
             self.velocity += 0.2;
         }
 
-        self.y += self.velocity as i32;
-        self.x += 1;
-        if self.y < 0 {
-            self.y = 0;
+        self.y += self.velocity;
+        self.x += 1.0;
+        if self.y < 0.0 {
+            self.y = 0.0;
         }
     }
 
@@ -79,9 +94,9 @@ impl Obstacle {
 
     fn hit_obstacle(&self, player: &Player) -> bool {
         let half_size = self.size / 2;
-        let does_x_match = player.x == self.x;
-        let player_above_gap = player.y < self.gap_y - half_size;
-        let player_below_gap = player.y > self.gap_y + half_size;
+        let does_x_match = player.x as i32 == self.x;
+        let player_above_gap = (player.y as i32) < self.gap_y - half_size;
+        let player_below_gap = (player.y as i32) > self.gap_y + half_size;
         does_x_match && (player_above_gap || player_below_gap)
     }
 }
@@ -97,7 +112,7 @@ struct State {
 impl State {
     fn new() -> Self {
         State {
-            player: Player::new(5, 25),
+            player: Player::new(5.0, 25.0),
             frame_time: 0.0,
             obstacle: Obstacle::new(SCREEN_WIDTH, 0),
             mode: GameMode::Menu,
@@ -121,19 +136,19 @@ impl State {
         ctx.print(0, 0, "Press SPACE to flap.");
         ctx.print(0, 1, &format!("Score: {}", self.score));
 
-        self.obstacle.render(ctx, self.player.x);
-        if self.player.x > self.obstacle.x {
+        self.obstacle.render(ctx, self.player.x as i32);
+        if self.player.x as i32 > self.obstacle.x {
             self.score += 1;
-            self.obstacle = Obstacle::new(self.player.x + SCREEN_WIDTH, self.score);
+            self.obstacle = Obstacle::new(self.player.x as i32 + SCREEN_WIDTH, self.score);
         }
 
-        if self.player.y > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
+        if self.player.y as i32 > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
             self.mode = GameMode::End;
         }
     }
 
     fn restart(&mut self) {
-        self.player = Player::new(5, 25);
+        self.player = Player::new(5.0, 25.0);
         self.frame_time = 0.0;
         self.obstacle = Obstacle::new(SCREEN_WIDTH, 0);
         self.mode = GameMode::Playing;

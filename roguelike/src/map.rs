@@ -30,10 +30,22 @@ impl Map {
                     let idx = map_idx(x, y);
                     match self.tiles[idx] {
                         TileType::Floor => {
-                            ctx.set(x - camera.left_x, y - camera.top_y, YELLOW, BLACK, to_cp437('.'));
+                            ctx.set(
+                                x - camera.left_x,
+                                y - camera.top_y,
+                                YELLOW,
+                                BLACK,
+                                to_cp437('.'),
+                            );
                         }
                         TileType::Wall => {
-                            ctx.set(x - camera.left_x, y - camera.top_y, GREEN, BLACK, to_cp437('#'));
+                            ctx.set(
+                                x - camera.left_x,
+                                y - camera.top_y,
+                                GREEN,
+                                BLACK,
+                                to_cp437('#'),
+                            );
                         }
                     }
                 }

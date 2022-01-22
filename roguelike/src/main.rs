@@ -57,13 +57,14 @@ impl GameState for State {
         ctx.cls();
         ctx.set_active_console(1);
         ctx.cls();
+
         self.resources.insert(ctx.key);
         self.systems.execute(&mut self.ecs, &mut self.resources);
         render_draw_buffer(ctx).expect("Render error");
 
         // A temporary feature of my own making...for convenience?
         if let Some(key) = ctx.key {
-            if key == VirtualKeyCode::Return {
+            if key == VirtualKeyCode::Return || key == VirtualKeyCode::Q {
                 ctx.quitting = true;
             }
         }

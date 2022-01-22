@@ -1,5 +1,4 @@
 use crate::prelude::*;
-use crate::*; // Not in the book, but doesn't work without.
 const NUM_ROOMS: usize = 20;
 
 pub struct MapBuilder {

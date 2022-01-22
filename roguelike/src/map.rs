@@ -1,6 +1,11 @@
 use crate::prelude::*;
-use crate::*; // Not in the book, but doesn't work without.
 const NUM_TILES: usize = (SCREEN_WIDTH * SCREEN_HEIGHT) as usize;
+
+#[derive(Copy, Clone, PartialEq)]
+pub enum TileType {
+    Wall,
+    Floor,
+}
 
 pub struct Map {
     pub tiles: Vec<TileType>,

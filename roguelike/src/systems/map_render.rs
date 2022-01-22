@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
 #[system]
-pub fn render(#[resource] map: &Map, #[resource] camera: &Camera) {
+pub fn map_render(#[resource] map: &Map, #[resource] camera: &Camera) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(0);
     for y in camera.top_y..camera.bottom_y {
@@ -14,7 +14,7 @@ pub fn render(#[resource] map: &Map, #[resource] camera: &Camera) {
                     TileType::Floor => to_cp437('.'),
                     TileType::Wall => to_cp437('#'),
                 };
-                draw_batch.set(pt - offset, ColorPair::new(WHITE, BLACK), glyph)
+                draw_batch.set(pt - offset, ColorPair::new(WHITE, BLACK), glyph);
             }
         }
     }

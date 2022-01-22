@@ -31,6 +31,11 @@ impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         self.map.render(ctx);
+
+        // A temporary feature of my own making...for convenience?
+        if let Some(_) = ctx.key {
+            ctx.quitting = true;
+        }
     }
 }
 

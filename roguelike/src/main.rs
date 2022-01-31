@@ -62,22 +62,6 @@ impl State {
         }
     }
 
-    // fn generate_new_world(ecs: &mut World, resources: &mut Resources) {
-    //     let mut rng = RandomNumberGenerator::new();
-    //     let map_builder = MapBuilder::new(&mut rng);
-    //     spawn_player(&mut ecs, map_builder.player_start);
-    //     map_builder
-    //         .rooms
-    //         .iter()
-    //         .skip(1)
-    //         .map(|r| r.center())
-    //         .for_each(|pos| spawn_monster(&mut ecs, &mut rng, pos));
-
-    //     resources.insert(map_builder.map);
-    //     resources.insert(Camera::new(map_builder.player_start));
-    //     resources.insert(TurnState::AwaitingInput);
-    // }
-
     fn game_over(&mut self, ctx: &mut BTerm) {
         ctx.set_active_console(2);
         ctx.print_color_centered(2, RED, BLACK, "Your quest has ended.");

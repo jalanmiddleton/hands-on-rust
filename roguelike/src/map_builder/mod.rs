@@ -1,8 +1,8 @@
 use crate::prelude::*;
 
+mod automata;
 mod empty;
 mod rooms;
-use rooms::RoomsArchitect;
 
 const NUM_ROOMS: usize = 20;
 
@@ -20,7 +20,7 @@ pub struct MapBuilder {
 
 impl MapBuilder {
     pub fn new(rng: &mut RandomNumberGenerator) -> Self {
-        let mut architect = RoomsArchitect {};
+        let mut architect = rooms::RoomsArchitect {};
         architect.new(rng)
     }
 

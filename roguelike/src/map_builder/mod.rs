@@ -19,7 +19,7 @@ pub struct MapBuilder {
     pub monster_spawns: Vec<Point>,
     pub player_start: Point,
     pub amulet_start: Point,
-    pub theme: Box<dyn MapTheme>
+    pub theme: Box<dyn MapTheme>,
 }
 
 impl MapBuilder {
@@ -31,6 +31,12 @@ impl MapBuilder {
         };
         let mut mb = architect.new(rng);
         prefab::apply_prefab(&mut mb, rng);
+
+        mb.theme = match rng.range(0, 2) {
+            0 => themes::DungeonTheme::new(),
+            _ => themes::ForestTheme::new(),
+        };
+
         mb
     }
 

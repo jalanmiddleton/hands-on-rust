@@ -36,7 +36,7 @@ Templates(
         Template(
             entity_type: Enemy,
             name: "Ettin", glyph: 'E', levels: [2],
-            hp: Some(1),
+            hp: Some(10),
             frequency: 1,
             base_damage: Some(3)
         ),
@@ -45,6 +45,18 @@ Templates(
             name: "Rusty Sword", glyph: '/', levels: [0, 1, 2],
             frequency: 1,
             base_damage: Some(1)
+        ),
+        Template(
+            entity_type: Item,
+            name: "Shiny Sword", glyph: 'S', levels: [0, 1, 2],
+            frequency: 1,
+            base_damage: Some(2)
+        ),
+        Template(
+            entity_type: Item,
+            name: "Huge Sword", glyph: '/', levels: [1, 2],
+            frequency: 1,
+            base_damage: Some(3)
         )
     ],
 )

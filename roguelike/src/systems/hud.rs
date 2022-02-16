@@ -40,6 +40,13 @@ pub fn hud(ecs: &SubWorld) {
         ColorPair::new(YELLOW, BLACK),
     );
 
+    let points = 0;
+    draw_batch.print_color_right(
+        Point::new(SCREEN_WIDTH * 2, 2), 
+        format!("Points: {}", points), 
+        ColorPair::new(YELLOW, BLACK)
+    );
+
     let mut item_query = <(&Item, &Name, &Carried)>::query();
     let mut y = 3;
     item_query
